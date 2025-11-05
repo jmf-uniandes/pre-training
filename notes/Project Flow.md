@@ -89,7 +89,7 @@ pip install pandas numpy matplotlib seaborn tabulate
 
 python.exe -m pip install --upgrade pip
 
-#scikit-learn missingno plotly streamlit lightgbm xgboost
+#pip install scikit-learn missingno plotly streamlit lightgbm xgboost
 
 
 # Paso 4: Exportar dependencias instaladas, despues se puede usar el comando pip install -r requirements.txt
