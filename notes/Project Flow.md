@@ -14,6 +14,7 @@
 Las siguientes librerías son las que se utilizan normalmente en el manejo, análisis y visualización de datos.  
 
 ```python
+# Parte 1
 # Manipulación de datos con DataFrames.
 import pandas as pd
 
@@ -26,8 +27,8 @@ import matplotlib.pyplot as plt
 # Visualización estadística avanzada (mapas de calor, distribuciones).
 import seaborn as sns
 
-# Mostrar gráficos directamente en el entorno de Jupyter.
-%matplotlib inline
+
+
 
 # Modelado y algoritmos de aprendizaje automático.
 from sklearn.model_selection import train_test_split
@@ -80,12 +81,19 @@ a) Presionar Ctrl + shift + P
 b) Click en Pyhton: Select Interpreter
 c) Seleccionar el que tenga el entorno virtual, ej.  Pyhton 3.13.19(.venv) .\.venv\Scripts\python.exe
 
+# Instalar Jupyter  para visualizar resultado de los archivos de jupyter
+pip install jupyter ipykernel
 
-# Paso 3: Instalar librerías necesarias
-pip install pandas numpy matplotlib seaborn scikit-learn jupyter missingno plotly streamlit lightgbm xgboost
+# Paso 3: Instalar librerías necesarias y actualizar pip a su nueva version
+pip install pandas numpy matplotlib seaborn tabulate
+
+python.exe -m pip install --upgrade pip
+
+#scikit-learn missingno plotly streamlit lightgbm xgboost
 
 
-# Paso 4: Exportar dependencias instaladas
+# Paso 4: Exportar dependencias instaladas, despues se puede usar el comando pip install -r requirements.txt
+
 pip freeze > requirements.txt
 
 # Paso 5: Clonar el repositorio del proyecto
@@ -181,58 +189,68 @@ Estos pasos aseguran una base de datos limpia antes del modelado.
 
 ---
 
-# Estructura Sugerida Proyecto
+# Estructura del Proyecto
 
 ```
 CASE-STUDY-SPOTIFY/
 │
-├── data/                     # Datos originales y procesados
-│   ├── SpotifyFeatures.csv
-│   ├── processed/            # Datasets limpios o con feature engineering
+├── data/                     
+│   ├── raw/                  # Datos originales intactos y limpios
+│   │   └── SpotifyFeatures.csv
+│   ├── processed/            
 │   │   └── spotify_clean.csv
 │
-├── models/                   # Modelos entrenados y scripts de entrenamiento
+├── models/                   
 │   ├── random_forest.pkl
 │   ├── xgboost_model.json
-│   └── lightgbm_model.txt
+│   ├── lightgbm_model.txt
+│   └── scaler.pkl            # Escalador o encoder
 │
-├── notebooks/                # Jupyter Notebooks de análisis
+├── notebooks/                
 │   ├── 01_loader.ipynb
 │   ├── 02_eda.ipynb
 │   ├── 03_preprocessing.ipynb
 │   ├── 04_model_training.ipynb
 │   └── 05_evaluation.ipynb
 │
-├── notes/                    # Documentación y apuntes
+├── notes/                    
 │   ├── img/
 │   ├── Github_notes.md
 │   ├── Markdown_info.md
-│   └── Project Flow.md
+│   ├── Project Flow.md
+│   └── References.md         # Bibliografía y links útiles
 │
-├── src/                      # Código fuente del proyecto
-│   ├── utils/                # Funciones auxiliares reutilizables
+├── src/                      
+│   ├── utils/                
+│   │   ├── __init__.py       # Importaciones como módulo Python
 │   │   ├── data_loader.py
 │   │   ├── preprocess.py
 │   │   ├── visualizations.py
 │   │   └── model_utils.py
-│   └── api/                  # API predictiva (Flask o FastAPI)
-│       ├── __init__.py
-│       └── routes.py
+│   ├── api/                  
+│   │   ├── __init__.py
+│   │   ├── routes.py
+│   │   └── model_service.py  # Función predictiva central (load_model + predict)
+│   └── dashboard/            # Streamlit app
+│       └── buscador_de_hits.py
 │
-├── results/                  # Resultados del modelo y gráficos
-│   ├── figures/              # Gráficos de análisis
-│   └── metrics/              # Reportes y tablas de evaluación
+├── results/                  
+│   ├── figures/              
+│   ├── metrics/              
+│   └── reports/              # PDF o notebooks convertidos a HTML/PDF
 │
-├── tests/                    # Pruebas unitarias del código
+├── tests/                    
 │   ├── test_data_loader.py
 │   ├── test_model.py
 │   └── test_api.py
 │
-├── main.py                   # Punto inicial del proyecto
+├── main.py                   
 ├── .gitignore
 ├── README.md
 ├── requirements.txt
-└── setup.md                  # Guía de instalación y entorno
+├── setup.md                  
+└── environment.yml            # entorno reproducible (conda o venv) Docker
+
 ```
 
 ---
@@ -246,3 +264,52 @@ CASE-STUDY-SPOTIFY/
 - **tests/**: si piensas escalar el proyecto o evaluarlo académicamente, esto muestra buenas prácticas.  
 
 ---
+
+
+# Modelos exactos recomendados (clasificación “hit / no hit”)
+
+| Tipo                    | Modelos                                                               | Propósito en tu experimento                        |
+|--------------------------|-----------------------------------------------------------------------|----------------------------------------------------|
+| **Árboles y Ensambles** | RandomForestClassifier, GradientBoostingClassifier, XGBoost, LightGBM | Modelos potentes, capturan relaciones no lineales. |
+| **Lineal**              | LogisticRegression                                                    | Baseline interpretable.                            |
+| **Distancia**           | KNeighborsClassifier                                                  | Comparativo, sensible al escalado.                 |
+
+---
+
+| Modelo                   | Librería              | Composición           | Cuándo usarlo                                      | Conversión de `genre` |
+|---------------------------|----------------------|-----------------------|----------------------------------------------------|------------------------|
+| **RandomForestClassifier**     | `sklearn.ensemble`    | Ensemble (árboles)     | Base sólida, robusto sin escalar.                  | `LabelEncoder` |
+| **GradientBoostingClassifier** | `sklearn.ensemble`    | Ensemble (boosting)    | Más preciso, controla bien el overfitting.         | `LabelEncoder` |
+| **XGBClassifier**              | `xgboost`             | Boosting avanzado      | Precisión alta, rápido.                            | `LabelEncoder` |
+| **LGBMClassifier**             | `lightgbm`            | Boosting optimizado    | Muy rápido en datasets grandes.                    | `LabelEncoder` |
+| **LogisticRegression**         | `sklearn.linear_model` | Lineal                 | Buen baseline interpretativo.                      | `OneHotEncoder` |
+| **KNeighborsClassifier**       | `sklearn.neighbors`   | Distancia              | Comparativo; sensible al escalado.                 | `OneHotEncoder` |
+
+
+Metricas
+accuracy_score: mide qué proporción de predicciones fueron correctas.
+
+f1_score: mide equilibrio entre precisión y recall (buena métrica si las clases están desbalanceadas).
+
+roc_auc_score: mide la capacidad del modelo para distinguir entre clases (cuanto más cerca de 1, mejor).| Modelo              | Accuracy | F1-Score (Hit) | ROC AUC | Conclusiones |
+|----------------------|-----------|----------------|----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **XGBoost**          | 0.8804    | 0.2678         | 0.8407   | Ganador Provisional. Muestra el mejor equilibrio entre el poder de discriminación (ROC AUC) y la capacidad para identificar la clase minoritaria (F1-Score). |
+| **LightGBM**         | 0.9419    | 0.0818         | 0.8258   | Excelente poder de discriminación, pero el bajo F1-Score indica un problema con el Recall (no está encontrando suficientes Hits reales) con el umbral por defecto (0.5). |
+| **Random Forest**    | 0.9406    | 0.1250         | 0.8202   | Desempeño sólido en discriminación, pero está sesgado hacia predecir la clase mayoritaria (No-Hit). |
+| **Gradient Boosting**| 0.9547    | 0.0000         | 0.7712   | Accuracy inflado. F1-Score de 0.0000 confirma que este modelo no predijo correctamente ningún Hit en el conjunto de prueba. |
+| **Logistic Regression** | 0.7711 | 0.1601         | 0.7606   | Funcionalidad lineal básica. Supera a K-Neighbors, pero no tiene la complejidad para capturar patrones de los modelos de Boosting. |
+| **K-Neighbors**      | 0.9529    | 0.0000         | 0.5898   | El peor modelo para esta tarea. Su rendimiento es cercano a una predicción aleatoria (ROC AUC cerca de 0.5) para la clase Hit. |
+
+
+| Modelo               | Ajuste aplicado              | Efecto                                                  |
+| -------------------- | ---------------------------- | ------------------------------------------------------- |
+| `RandomForest`       | `class_weight='balanced'`    | Aumenta la importancia de los hits (clase minoritaria). |
+| `GradientBoosting`   | sin soporte directo          | Se deja igual, o puedes balancear por resampling.       |
+| `XGBoost`            | `scale_pos_weight=ratio`     | Corrige el desbalance en la función de pérdida.         |
+| `LightGBM`           | `class_weight='balanced'`    | Pondera internamente las clases.                        |
+| `LogisticRegression` | `class_weight='balanced'`    | Ajusta los pesos durante la optimización.               |
+| `KNeighbors`         | no soporta pesos automáticos | Se mantiene igual.                                      |
+
+
+Tu dataset tiene solo 4.53 % de canciones “hit”, lo que provoca que los modelos prioricen predecir “no-hit” (clase 0).
+Con class_weight='balanced' y scale_pos_weight, cada modelo penaliza más los errores en la clase minoritaria, mejorando recall y F1-score.
