@@ -89,7 +89,7 @@ pip install pandas numpy matplotlib seaborn tabulate
 
 python.exe -m pip install --upgrade pip
 
-#pip install scikit-learn missingno plotly streamlit lightgbm xgboost
+pip install scikit-learn missingno plotly streamlit lightgbm xgboost
 
 
 # Paso 4: Exportar dependencias instaladas, despues se puede usar el comando pip install -r requirements.txt
@@ -286,19 +286,6 @@ CASE-STUDY-SPOTIFY/
 | **KNeighborsClassifier**       | `sklearn.neighbors`   | Distancia              | Comparativo; sensible al escalado.                 | `OneHotEncoder` |
 
 
-Metricas
-accuracy_score: mide qué proporción de predicciones fueron correctas.
-
-f1_score: mide equilibrio entre precisión y recall (buena métrica si las clases están desbalanceadas).
-
-roc_auc_score: mide la capacidad del modelo para distinguir entre clases (cuanto más cerca de 1, mejor).| Modelo              | Accuracy | F1-Score (Hit) | ROC AUC | Conclusiones |
-|----------------------|-----------|----------------|----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **XGBoost**          | 0.8804    | 0.2678         | 0.8407   | Ganador Provisional. Muestra el mejor equilibrio entre el poder de discriminación (ROC AUC) y la capacidad para identificar la clase minoritaria (F1-Score). |
-| **LightGBM**         | 0.9419    | 0.0818         | 0.8258   | Excelente poder de discriminación, pero el bajo F1-Score indica un problema con el Recall (no está encontrando suficientes Hits reales) con el umbral por defecto (0.5). |
-| **Random Forest**    | 0.9406    | 0.1250         | 0.8202   | Desempeño sólido en discriminación, pero está sesgado hacia predecir la clase mayoritaria (No-Hit). |
-| **Gradient Boosting**| 0.9547    | 0.0000         | 0.7712   | Accuracy inflado. F1-Score de 0.0000 confirma que este modelo no predijo correctamente ningún Hit en el conjunto de prueba. |
-| **Logistic Regression** | 0.7711 | 0.1601         | 0.7606   | Funcionalidad lineal básica. Supera a K-Neighbors, pero no tiene la complejidad para capturar patrones de los modelos de Boosting. |
-| **K-Neighbors**      | 0.9529    | 0.0000         | 0.5898   | El peor modelo para esta tarea. Su rendimiento es cercano a una predicción aleatoria (ROC AUC cerca de 0.5) para la clase Hit. |
 
 
 | Modelo               | Ajuste aplicado              | Efecto                                                  |
@@ -313,3 +300,30 @@ roc_auc_score: mide la capacidad del modelo para distinguir entre clases (cuanto
 
 Tu dataset tiene solo 4.53 % de canciones “hit”, lo que provoca que los modelos prioricen predecir “no-hit” (clase 0).
 Con class_weight='balanced' y scale_pos_weight, cada modelo penaliza más los errores en la clase minoritaria, mejorando recall y F1-score.
+
+
+### Analisis de Resultado
+
+| Modelo                  | Accuracy | F1-Score (Hit) | ROC AUC | Conclusiones                                                                                                                   |
+| ----------------------- | -------- | -------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| **LightGBM**            | 0.8937   | 0.4439         | 0.8785  | Mejor desempeño general. Mantiene alto poder de discriminación y el F1 más equilibrado. Ideal para continuar el entrenamiento. |
+| **XGBoost**             | 0.8856   | 0.4262         | 0.8740  | Muy competitivo, pero ligeramente inferior a LightGBM en Recall y estabilidad.                                                 |
+| **Random Forest**       | 0.8576   | 0.2837         | 0.6986  | Consistente pero sesgado hacia la clase No-Hit.                                                                                |
+| **Logistic Regression** | 0.7779   | 0.2646         | 0.8122  | Base lineal razonable, pero limitada para capturar relaciones complejas.                                                       |
+| **Gradient Boosting**   | 0.9554   | 0.1321         | 0.5356  | Accuracy inflado; pobre desempeño en detección de Hits.                                                                        |
+| **K-Neighbors**         | 0.9520   | 0.0809         | 0.5214  | Alto Accuracy por sesgo hacia No-Hit. Ineficiente para identificar Hits.                                                       |
+
+---
+
+### 🏁 Conclusión final
+
+- **LightGBM** → modelo óptimo para pasar al archivo `04_model_training.ipynb`.  
+- **XGBoost** → referencia secundaria para comparar después del ajuste de hiperparámetros.
+
+---
+
+### 📊 Métricas utilizadas
+
+- **accuracy_score** → mide qué proporción de predicciones fueron correctas.  
+- **f1_score** → mide el equilibrio entre *precisión* y *recall* (útil si las clases están desbalanceadas).  
+- **roc_auc_score** → mide la capacidad del modelo para distinguir entre clases (cuanto más cerca de 1, mejor).
