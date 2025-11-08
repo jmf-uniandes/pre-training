@@ -100,6 +100,10 @@ pip freeze > requirements.txt
 # (Repositorio documentado en 'Github_notes.md')
 
 # Paso 6: Realizar las actividades asignadas
+
+pip install fastapi "uvicorsn[standard]" pydantic
+
+#http://127.0.0.1:8000/docs
 ```
 
 Comentarios:
