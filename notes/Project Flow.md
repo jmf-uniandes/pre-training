@@ -331,3 +331,61 @@ Con class_weight='balanced' y scale_pos_weight, cada modelo penaliza más los er
 - **accuracy_score** → mide qué proporción de predicciones fueron correctas.  
 - **f1_score** → mide el equilibrio entre *precisión* y *recall* (útil si las clases están desbalanceadas).  
 - **roc_auc_score** → mide la capacidad del modelo para distinguir entre clases (cuanto más cerca de 1, mejor).
+
+
+1. Logistic Regression
+
+Modelo lineal.
+Sirve como baseline. Rápido, interpretable y muestra qué variables empujan a la probabilidad de ser hit.
+
+2. Random Forest
+
+Ensamble de muchos árboles de decisión.
+Robusto, maneja no-linealidades y detecta interacciones entre features automáticamente.
+
+3. Gradient Boosting (GBM clásico de sklearn)
+
+Construye árboles de manera secuencial, corrigiendo errores del anterior.
+Mejor rendimiento que RandomForest pero más lento.
+
+4. XGBoost
+
+Implementación optimizada y más poderosa de boosting.
+Alta precisión, muy usado en competencias de Kaggle. Excelente con datasets tabulares.
+
+5. LightGBM
+
+Boosting muy rápido desarrollado por Microsoft.
+Funciona excelente con grandes volúmenes (como tu dataset de 230k filas).
+Suele superar a XGBoost en velocidad con rendimiento similar o mejor.
+
+Métricas que se van a comparar
+
+Debido al dataset desbalanceado (4.6% hits), no sirve usar solo accuracy.
+Por eso se evalúan 3 métricas clave:
+
+1. Accuracy
+
+Porcentaje de predicciones correctas.
+No es muy útil con desbalance (un modelo que prediga “todo es no-hit” ya logra 95%).
+
+2. F1-score
+
+Promedio entre precision y recall para la clase positiva (hit).
+Es la métrica crítica cuando la clase “hit” es muy minoritaria.
+Evalúa qué tan bien detecta hits sin generar demasiados falsos positivos.
+
+3. ROC-AUC
+
+Mide la capacidad del modelo de separar ambas clases.
+No depende del umbral 0.5.
+Valores:
+
+0.5 = aleatorio
+
+1.0 = perfecto
+Un buen modelo suele estar > 0.80
+
+En una frase:
+
+Entrenaremos 5 algoritmos (lineales, árboles y boostings) y los compararemos usando métricas robustas frente al desbalance (F1 y AUC) para seleccionar el mejor modelo que predice si una canción puede ser un hit.
