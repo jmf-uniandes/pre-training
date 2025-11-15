@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    container_name: hits_api
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    restart: unless-stopped
+
+  dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile.dashboard
+    container_name: hits_dashboard
+    ports:
+      - "8501:8501"
+    environment:
+      - HITS_API_URL=http://api:8000
+    depends_on:
+      - api
+    volumes:
+      - .:/app
+    restart: unless-stopped
