@@ -101,7 +101,15 @@ pip freeze > requirements.txt
 
 # Paso 6: Realizar las actividades asignadas
 
-pip install fastapi "uvicorsn[standard]" pydantic
+#pip install fastapi "uvicorn[standard]" pydantic
+#API
+pip install fastapi "uvicorn[standard]" 
+
+#Dashboard
+pip install streamlit plotly
+
+
+
 
 #http://127.0.0.1:8000/docs
 ```

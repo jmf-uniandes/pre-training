@@ -1,0 +1,42 @@
+/* Fondo principal */
+body {
+    background-color: #101010 !important;
+}
+
+/* Sidebar */
+section[data-testid="stSidebar"] {
+    background-color: #111 !important;
+}
+
+/* Títulos */
+h1, h2, h3, h4 {
+    color: #32F5C8 !important;
+}
+
+/* Texto */
+p, label, span {
+    color: #E0FFFF !important;
+}
+
+/* Botones */
+.stButton>button {
+    background: linear-gradient(90deg, #32F5C8, #147E68);
+    color: black !important;
+    border-radius: 10px;
+    height: 45px;
+    font-size: 18px;
+    border: none;
+}
+.stButton>button:hover {
+    background: #40FFDD;
+}
+
+/* Sliders */
+.css-1aumxhk {
+    color: #32F5C8 !important;
+}
+
+/* Cuadros y contenedores */
+.block-container {
+    padding-top: 2rem;
+}

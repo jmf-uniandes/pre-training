@@ -1,4 +1,6 @@
 altair==5.5.0
+annotated-doc==0.0.4
+annotated-types==0.7.0
 anyio==4.11.0
 argon2-cffi==25.1.0
 argon2-cffi-bindings==25.1.0
@@ -15,6 +17,7 @@ certifi==2025.10.5
 cffi==2.0.0
 charset-normalizer==3.4.4
 click==8.3.0
+cloudpickle==3.1.2
 colorama==0.4.6
 comm==0.2.3
 contourpy==1.3.3
@@ -23,6 +26,7 @@ debugpy==1.8.17
 decorator==5.2.1
 defusedxml==0.7.1
 executing==2.2.1
+fastapi==0.121.2
 fastjsonschema==2.21.2
 fonttools==4.60.1
 fqdn==1.5.1
@@ -30,6 +34,7 @@ gitdb==4.0.12
 GitPython==3.1.45
 h11==0.16.0
 httpcore==1.0.9
+httptools==0.7.1
 httpx==0.28.1
 idna==3.11
 ipykernel==7.1.0
@@ -59,6 +64,7 @@ jupyterlab_widgets==3.0.16
 kiwisolver==1.4.9
 lark==1.3.1
 lightgbm==4.6.0
+llvmlite==0.45.1
 MarkupSafe==3.0.3
 matplotlib==3.10.7
 matplotlib-inline==0.2.1
@@ -71,6 +77,7 @@ nbformat==5.10.4
 nest-asyncio==1.6.0
 notebook==7.4.7
 notebook_shim==0.2.4
+numba==0.62.1
 numpy==2.3.4
 packaging==25.0
 pandas==2.3.3
@@ -86,10 +93,13 @@ psutil==7.1.3
 pure_eval==0.2.3
 pyarrow==21.0.0
 pycparser==2.23
+pydantic==2.12.4
+pydantic_core==2.41.5
 pydeck==0.9.1
 Pygments==2.19.2
 pyparsing==3.2.5
 python-dateutil==2.9.0.post0
+python-dotenv==1.2.1
 python-json-logger==4.0.0
 pytz==2025.2
 pywinpty==3.0.2
@@ -106,11 +116,14 @@ scipy==1.16.3
 seaborn==0.13.2
 Send2Trash==1.8.3
 setuptools==80.9.0
+shap==0.50.0
 six==1.17.0
+slicer==0.0.8
 smmap==5.0.2
 sniffio==1.3.1
 soupsieve==2.8
 stack-data==0.6.3
+starlette==0.49.3
 streamlit==1.51.0
 tabulate==0.9.0
 tenacity==9.1.2
@@ -119,15 +132,20 @@ threadpoolctl==3.6.0
 tinycss2==1.4.0
 toml==0.10.2
 tornado==6.5.2
+tqdm==4.67.1
 traitlets==5.14.3
+typing-inspection==0.4.2
 typing_extensions==4.15.0
 tzdata==2025.2
 uri-template==1.3.0
 urllib3==2.5.0
+uvicorn==0.38.0
 watchdog==6.0.0
+watchfiles==1.1.1
 wcwidth==0.2.14
 webcolors==25.10.0
 webencodings==0.5.1
 websocket-client==1.9.0
+websockets==15.0.1
 widgetsnbextension==4.0.15
 xgboost==3.1.1
