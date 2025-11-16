@@ -1,43 +1,36 @@
 import streamlit as st
-import os
 import requests
-import pandas as pd
 import numpy as np
-import plotly.graph_objects as go
+import pandas as pd
 
-# =============================
-# CONFIGURACIÓN DE LA PÁGINA
-# =============================
+# Utilidades y gauge modular
+from utils import load_dataset, load_css, API_URL
+from gauge import create_gauge_chart
+
+
+# ============================================================
+# CONFIGURACIÓN PRINCIPAL
+# ============================================================
 st.set_page_config(
     page_title="Buscador de Hits 🎵",
     page_icon="🎵",
     layout="wide"
 )
 
-# ========== CARGAR CSS ==========
-css_path = os.path.join(os.path.dirname(__file__), "assets", "custom.css")
-with open(css_path) as f:
-    st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+# Cargar estilos globales
+load_css()
+
+# Dataset para cargar géneros
+df = load_dataset()
 
 
-# =============================
-# RUTAS Y ARCHIVOS
-# =============================
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-ROOT_DIR = os.path.dirname(BASE_DIR)
-
-API_URL = "http://127.0.0.1:8000/songs/predict_hit"
-DATA_PATH = os.path.join(ROOT_DIR, "data", "processed", "spotify_clean_modeling.csv")
-
-df = pd.read_csv(DATA_PATH)
-
-# =============================
-# TÍTULO PREMIUM
-# =============================
+# ============================================================
+# TÍTULO PRINCIPAL
+# ============================================================
 st.markdown(
     """
     <h1 style='text-align:center; color:#32F5C8;'>🎵 EL BUSCADOR DE HITS</h1>
-    <h3 style='text-align:center; color: #7FFFD4; margin-top:-15px;'>
+    <h3 style='text-align:center; color:#7FFFD4; margin-top:-15px;'>
         Crea tu Receta para el Éxito Musical
     </h3>
     """,
@@ -46,17 +39,19 @@ st.markdown(
 
 st.write("")
 
-# =============================
+
+# ============================================================
 # LAYOUT PRINCIPAL
-# =============================
+# ============================================================
 col1, col2 = st.columns([1.2, 1.8])
 
-# =====================================
+
+# ============================================================
 # COLUMNA IZQUIERDA — SLIDERS
-# =====================================
+# ============================================================
 with col1:
 
-    st.subheader("Ajusta los atributos de la canción")
+    st.subheader("🎚 Ajusta los atributos de la canción")
 
     genre = st.selectbox("Género", sorted(df["genre"].unique()))
 
@@ -90,65 +85,86 @@ with col1:
         response = requests.post(API_URL, json=payload)
         data = response.json()
 
-        prob = data["hit_probability"]
-        pred = data["hit_prediction"]
-
-        st.session_state["pred_prob"] = prob
-        st.session_state["pred_label"] = pred
+        st.session_state["pred_prob"] = data["hit_probability"]
+        st.session_state["pred_label"] = data["hit_prediction"]
 
 
-# =====================================
+
+# ============================================================
 # COLUMNA DERECHA — RESULTADO PREMIUM
-# =====================================
+# ============================================================
 with col2:
 
-    st.subheader("Resultado de la Predicción")
+    st.subheader("📈 Resultado de la Predicción")
 
     if "pred_prob" in st.session_state:
 
-        prob = st.session_state["pred_prob"]
-        pred = st.session_state["pred_label"]
+        prob = float(st.session_state["pred_prob"])
+        pred = int(st.session_state["pred_label"])
+        prob_pct = int(prob * 100)
 
-        # ===== Velocímetro GAUGE =====
-        gauge = go.Figure(go.Indicator(
-            mode="gauge+number",
-            value=prob * 100,
-            number={'suffix': "%"},
-            gauge={
-                'axis': {'range': [0, 100]},
-                'bar': {'color': "#32F5C8"},
-                'steps': [
-                    {'range': [0, 40], 'color': "#1A1A1A"},
-                    {'range': [40, 70], 'color': "#333333"},
-                    {'range': [70, 100], 'color': "#0F3F34"}
-                ],
-            }
-        ))
+        # ====================================================
+        # GAUGE PREMIUM PLOTLY
+        # ====================================================
+        gauge_fig = create_gauge_chart(prob_pct, "PROBABILIDAD DE HIT")
+        # CENTRAR EL GAUGE CON COLUMNAS
+        g1, g2, g3 = st.columns([1, 2, 1])  # columna central 2x más grande
+        with g2:
+            st.plotly_chart(gauge_fig, use_container_width=True)
+ 
+        # ====================================================
+        # INTERPRETACIÓN
+        # ====================================================
+        st.write("")
 
-        gauge.update_layout(height=320, margin=dict(t=30, b=10))
-
-        st.plotly_chart(gauge, use_container_width=True)
-
-        # Texto de interpretación
-        if prob > 0.70:
-            st.success("🔥 **Potencial de Éxito: ALTO**")
-        elif prob > 0.40:
-            st.warning("🎧 **Potencial de Éxito: MEDIO**")
+        if pred == 1:
+            if prob >= 0.85:
+                st.success("🔥 **HIT Seguro — Altísima confianza del modelo**")
+            elif prob >= 0.70:
+                st.success("🎵 **HIT Probable — Buena confianza del modelo**")
+            else:
+                st.warning("🎧 **HIT Débil — Baja confianza del modelo**")
         else:
-            st.error("❄️ **Potencial de Éxito: BAJO**")
+            if prob <= 0.15:
+                st.error("❄️ **NO HIT — Muy seguro**")
+            elif prob <= 0.30:
+                st.warning("⚠️ **NO HIT Probable — Señal débil**")
+            else:
+                st.info("ℹ️ **NO HIT — Indeciso**")
 
-        # Distribución comparativa de probabilidades reales
-        st.write("### Distribución de Probabilidades Reales")
 
-        hist = go.Figure()
-        hist.add_trace(go.Histogram(
-            x=df["is_hit"],
-            marker_color="#32F5C8"
+        # ====================================================
+        # ESPECTRO DE PROBABILIDAD (GRÁFICO)
+        # ====================================================
+        st.markdown("### 📊 Espectro de Probabilidad")
+        st.caption("Distribución centrada en tu probabilidad")
+
+        x = np.linspace(0, 1, 400)
+        y = np.exp(-((x - prob) ** 2) / 0.003)
+
+        import plotly.graph_objects as go
+        fig = go.Figure()
+
+        fig.add_trace(go.Scatter(
+            x=x, y=y,
+            mode="lines",
+            line=dict(color="#32F5C8", width=3),
+            fill="tozeroy",
+            fillcolor="rgba(50,245,200,0.15)"
         ))
-        hist.update_layout(height=250)
-        st.plotly_chart(hist, use_container_width=True)
+
+        fig.add_vline(x=prob, line_color="red", line_width=4)
+
+        fig.update_layout(
+            height=260,
+            margin=dict(t=10, b=10),
+            xaxis_title="Probabilidad",
+            yaxis_title="Intensidad relativa",
+            paper_bgcolor="rgba(0,0,0,0)",
+            plot_bgcolor="rgba(0,0,0,0)",
+        )
+
+        st.plotly_chart(fig, use_container_width=True)
 
     else:
         st.info("Configura los sliders y presiona **Predecir HIT**.")
-
-

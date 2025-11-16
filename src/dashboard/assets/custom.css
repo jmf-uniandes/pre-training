@@ -1,27 +1,44 @@
+/* Ajustar fondo general */
+[data-testid="stAppViewContainer"] {
+    background-color: #0D0D0D ;
+}
+
+/* Ajustar sidebar */
+[data-testid="stSidebar"] {
+    background-color: #0F0F0F ;
+}
+
+/* Títulos premium */
+h1, h2, h3, h4, h5 {
+    font-family: 'Orbitron', sans-serif ;
+    color: #32F5C8 ;
+}
+
+
 /* Fondo principal */
 body {
-    background-color: #101010 !important;
+    background-color: #101010 ;
 }
 
 /* Sidebar */
 section[data-testid="stSidebar"] {
-    background-color: #111 !important;
+    background-color: #111 ;
 }
 
 /* Títulos */
 h1, h2, h3, h4 {
-    color: #32F5C8 !important;
+    color: #32F5C8 ;
 }
 
 /* Texto */
 p, label, span {
-    color: #E0FFFF !important;
+    color: #E0FFFF ;
 }
 
 /* Botones */
 .stButton>button {
     background: linear-gradient(90deg, #32F5C8, #147E68);
-    color: black !important;
+    color: black ;
     border-radius: 10px;
     height: 45px;
     font-size: 18px;
@@ -33,10 +50,65 @@ p, label, span {
 
 /* Sliders */
 .css-1aumxhk {
-    color: #32F5C8 !important;
+    color: #32F5C8 ;
 }
 
 /* Cuadros y contenedores */
 .block-container {
     padding-top: 2rem;
 }
+
+/* Aumentar solo el texto del label del slider */
+.stSlider > label,
+.stSlider label {
+    font-size: 25px ;  
+    font-weight: 600 ; 
+    color: #E0FFFF ;
+}
+
+/* FUENTE DEL GAUGE */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap');
+
+/* Texto premium del gauge */
+.main-svg text {
+    font-family: 'Orbitron', sans-serif ;
+    fill: #00F0FF ;
+}
+
+.g-gtitle .g-text,
+.infolayer .g-gtitle .g-text,
+.g-number .g-text {
+    text-shadow:
+        0 0 5px rgba(0, 240, 255, 0.4),
+        0 0 10px rgba(0, 240, 255, 0.7),
+        0 0 15px #00F0FF;
+}
+
+/* Fondo oscuro del dashboard */
+[data-testid="stAppViewContainer"] {
+    background-color: #0D0D0D ;
+}
+
+/* Sidebar */
+[data-testid="stSidebar"] {
+    background-color: #0F0F0F ;
+}
+
+
+/* Fuerza a centrar el contenedor del gráfico dentro de las columnas */
+div[data-testid="element-container"] {
+    display: flex ;
+    justify-content: center ;
+}
+
+/* Centra el canvas del plotly */
+div[data-testid="stPlotlyChart"] {
+    margin-left: auto ;
+    margin-right: auto ;
+}
+
+/* ESTE ES EL QUE FALTABA: centra el gauge real */
+.js-plotly-plot {
+    margin: 0 auto ;
+}
+
