@@ -1,16 +1,14 @@
 import streamlit as st
 import requests
 import numpy as np
-import pandas as pd
+import plotly.graph_objects as go
 
-# Utilidades y gauge modular
+# Utilities and components
 from utils import load_dataset, load_css, API_URL
 from gauge import create_gauge_chart
 
 
-# ============================================================
 # CONFIGURACIÓN PRINCIPAL
-# ============================================================
 st.set_page_config(
     page_title="Buscador de Hits 🎵",
     page_icon="🎵",
@@ -20,17 +18,16 @@ st.set_page_config(
 # Cargar estilos globales
 load_css()
 
-# Dataset para cargar géneros
+# Dataset para mostrar metricas
 df = load_dataset()
 
 
-# ============================================================
 # TÍTULO PRINCIPAL
-# ============================================================
 st.markdown(
     """
-    <h1 style='text-align:center; color:#32F5C8;'>🎵 EL BUSCADOR DE HITS</h1>
-    <h3 style='text-align:center; color:#7FFFD4; margin-top:-15px;'>
+    <h1 style='text-align:center; color:#32F5C8;'>🎵</h1>
+    <h1 style='text-align:center; color:#32F5C8;'>EL BUSCADOR DE HITS</h1>
+        <h3 style='text-align:center; color:#7FFFD4; margin-top:-15px;'>
         Crea tu Receta para el Éxito Musical
     </h3>
     """,
@@ -39,22 +36,13 @@ st.markdown(
 
 st.write("")
 
-
-# ============================================================
 # LAYOUT PRINCIPAL
-# ============================================================
 col1, col2 = st.columns([1.2, 1.8])
 
-
-# ============================================================
 # COLUMNA IZQUIERDA — SLIDERS
-# ============================================================
 with col1:
-
-    st.subheader("🎚 Ajusta los atributos de la canción")
-
+    st.subheader("🛠️ Ajusta los atributos de la canción")
     genre = st.selectbox("Género", sorted(df["genre"].unique()))
-
     acousticness = st.slider("Acousticness", 0.0, 1.0, 0.5, 0.01)
     danceability = st.slider("Danceability", 0.0, 1.0, 0.5, 0.01)
     energy = st.slider("Energy", 0.0, 1.0, 0.5, 0.01)
@@ -67,7 +55,6 @@ with col1:
     duration_ms = st.slider("Duración (ms)", 30000, 400000, 180000, 1000)
 
     if st.button("🎯 Predecir HIT", use_container_width=True):
-
         payload = {
             "genre": genre,
             "acousticness": acousticness,
@@ -81,40 +68,27 @@ with col1:
             "valence": valence,
             "duration_ms": duration_ms
         }
-
         response = requests.post(API_URL, json=payload)
         data = response.json()
-
         st.session_state["pred_prob"] = data["hit_probability"]
         st.session_state["pred_label"] = data["hit_prediction"]
 
-
-
-# ============================================================
-# COLUMNA DERECHA — RESULTADO PREMIUM
-# ============================================================
+# COLUMNA DERECHA — RESULTADO 
 with col2:
-
     st.subheader("📈 Resultado de la Predicción")
-
     if "pred_prob" in st.session_state:
-
         prob = float(st.session_state["pred_prob"])
         pred = int(st.session_state["pred_label"])
         prob_pct = int(prob * 100)
-
-        # ====================================================
-        # GAUGE PREMIUM PLOTLY
-        # ====================================================
+      
+        # GAUGE PLOTLY
         gauge_fig = create_gauge_chart(prob_pct, "PROBABILIDAD DE HIT")
         # CENTRAR EL GAUGE CON COLUMNAS
         g1, g2, g3 = st.columns([1, 2, 1])  # columna central 2x más grande
         with g2:
             st.plotly_chart(gauge_fig, use_container_width=True)
- 
-        # ====================================================
+         
         # INTERPRETACIÓN
-        # ====================================================
         st.write("")
 
         if pred == 1:
@@ -131,18 +105,15 @@ with col2:
                 st.warning("⚠️ **NO HIT Probable — Señal débil**")
             else:
                 st.info("ℹ️ **NO HIT — Indeciso**")
-
-
-        # ====================================================
+        
         # ESPECTRO DE PROBABILIDAD (GRÁFICO)
-        # ====================================================
         st.markdown("### 📊 Espectro de Probabilidad")
         st.caption("Distribución centrada en tu probabilidad")
 
         x = np.linspace(0, 1, 400)
         y = np.exp(-((x - prob) ** 2) / 0.003)
 
-        import plotly.graph_objects as go
+        
         fig = go.Figure()
 
         fig.add_trace(go.Scatter(

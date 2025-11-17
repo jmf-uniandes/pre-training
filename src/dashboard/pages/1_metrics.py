@@ -3,9 +3,9 @@ import plotly.express as px
 import plotly.graph_objects as go
 from utils import load_dataset, load_css
 
-# ================================
+
 # CONFIG
-# ================================
+
 st.set_page_config(
     page_title="Métricas del Dataset",
     page_icon="📊",
@@ -14,14 +14,14 @@ st.set_page_config(
 
 load_css()
 
-# ================================
+
 # DATA
-# ================================
+
 df = load_dataset()
 generos_ordenados = sorted(df["genre"].unique())
-# ================================
+
 # TÍTULO
-# ================================
+
 st.markdown(
     """
     <h1 style='color:#32F5C8;'>📊 Métricas del Dataset Spotify</h1>
@@ -34,9 +34,9 @@ st.markdown(
 
 st.write("---")
 
-# ============================================================
+
 # CONTENEDOR 1 — Vista Previa + Estadísticas
-# ============================================================
+
 with st.container(border=True):
     st.subheader("📌 Vista previa del dataset")
     st.dataframe(df.head(), use_container_width=True)
@@ -44,9 +44,9 @@ with st.container(border=True):
     st.subheader("📌 Estadísticas descriptivas")
     st.dataframe(df.describe().T, use_container_width=True)
 
-# ============================================================
+
 # CONTENEDOR 2 — Gráficos generales por género
-# ============================================================
+
 with st.container(border=True):
     st.subheader("🎼 Distribución por Género")
 
@@ -63,9 +63,9 @@ with st.container(border=True):
     )
     st.plotly_chart(fig1, use_container_width=True)
 
-    # ---------------------------
+    
     # HIT por género
-    # ---------------------------
+    
     st.subheader("🔥 Canciones HIT por Género")
 
     hits_por_genero = (
@@ -85,9 +85,9 @@ with st.container(border=True):
     )
     st.plotly_chart(fig_hits_genre, use_container_width=True)
 
-    # ---------------------------
+    
     # HIT RATE por género
-    # ---------------------------
+    
     st.subheader("📈 HIT RATE por Género (hits / total)")
 
     hit_rate = hits_por_genero.merge(genre_counts, on="genre")
@@ -104,9 +104,9 @@ with st.container(border=True):
     fig_hit_rate.update_yaxes(tickformat="0.0%")
     st.plotly_chart(fig_hit_rate, use_container_width=True)
 
-# ============================================================
+
 # CONTENEDOR 3 — Radar Chart por género (NORMALIZADO)
-# ============================================================
+
 with st.container(border=True):
     st.subheader("🧭 Radar Chart por Género (Normalizado)")
 
@@ -152,9 +152,9 @@ with st.container(border=True):
 
     st.plotly_chart(fig_radar, use_container_width=True)
 
-# ============================================================
+
 # CONTENEDOR 4 — Gráficos dinámicos con selector de atributo
-# ============================================================
+
 with st.container(border=True):
     st.subheader("🎛 Gráficos Dinámicos por Género")
 
@@ -169,18 +169,18 @@ with st.container(border=True):
     if "attr_right" not in st.session_state:
         st.session_state["attr_right"] = default_right
 
-    # ------------------------
+    
     # BOTÓN PARA RESTABLECER
-    # ------------------------
+    
     if st.button("🔄 Restablecer valores por defecto"):
         st.session_state["attr_left"] = default_left
         st.session_state["attr_right"] = default_right
 
     st.write("")  # Espacio visual
 
-    # ------------------------
+    
     # SELECTOR DE GÉNERO
-    # ------------------------
+    
     generos_ordenados = sorted(df["genre"].unique())
     genero_sel = st.selectbox("Selecciona un género:", generos_ordenados, key="graf_dynamic_genero")
 
@@ -194,9 +194,9 @@ with st.container(border=True):
 
     col1, col2 = st.columns(2)
 
-    # ======================
+    
     # COLUMNA IZQUIERDA
-    # ======================
+    
     with col1:
         attr_left = st.selectbox(
             "Seleccione el atributo (Gráfico 1):",
@@ -213,9 +213,9 @@ with st.container(border=True):
         )
         st.plotly_chart(fig_left, use_container_width=True)
 
-    # ======================
+    
     # COLUMNA DERECHA
-    # ======================
+    
     with col2:
         attr_right = st.selectbox(
             "Seleccione el atributo (Gráfico 2):",
@@ -233,9 +233,9 @@ with st.container(border=True):
         st.plotly_chart(fig_right, use_container_width=True)
 
 
-# ============================================================
+
 # CONTENEDOR 5 — Comparación HIT vs NO HIT (NORMALIZADO)
-# ============================================================
+
 with st.container(border=True):
     st.subheader("⚔ Comparación de Atributos: HIT vs NO HIT (Normalizado)")
 
@@ -275,9 +275,9 @@ with st.container(border=True):
     fig_comp.update_layout(height=500)
     st.plotly_chart(fig_comp, use_container_width=True)
 
-# ============================================================
+
 # PIE HIT vs NO HIT — Con nombres y cantidades en la leyenda
-# ============================================================
+
 with st.container(border=True):
     st.subheader("🥧 Distribución HIT vs NO-HIT")
 
@@ -312,7 +312,7 @@ with st.container(border=True):
     st.plotly_chart(fig2, use_container_width=True)
 
 
-# ============================================================
+
 # STATUS
-# ============================================================
+
 st.success("Página de métricas avanzadas cargada correctamente.")

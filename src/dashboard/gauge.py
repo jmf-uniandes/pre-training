@@ -21,9 +21,9 @@ def create_gauge_chart(value, title_text="PROBABILIDAD DE HIT"):
         mode="gauge+number",
         value=value,
 
-        # =======================
+        
         # TÍTULO DEL GAUGE
-        # =======================
+        
         title={
             "text": f"<b>{title_text}</b>",
             "font": {
@@ -33,9 +33,9 @@ def create_gauge_chart(value, title_text="PROBABILIDAD DE HIT"):
             }
         },
 
-        # =======================
+        
         # NÚMERO CENTRAL
-        # =======================
+        
         number={
             'suffix': "%",
             'font': {
@@ -45,14 +45,14 @@ def create_gauge_chart(value, title_text="PROBABILIDAD DE HIT"):
             }
         },
 
-        # =======================
+        
         # DOMINIO
-        # =======================
+        
         domain={'x': [0, 1], 'y': [0, 1]},
 
-        # =======================
+        
         # DEFINICIÓN DEL GAUGE
-        # =======================
+        
         gauge={
             'shape': "angular",
             'bar': {
@@ -76,9 +76,9 @@ def create_gauge_chart(value, title_text="PROBABILIDAD DE HIT"):
         }
     ))
 
-    # =======================
+    
     # LAYOUT GENERAL
-    # =======================
+    
     fig.update_layout(
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",

@@ -397,3 +397,27 @@ Un buen modelo suele estar > 0.80
 En una frase:
 
 Entrenaremos 5 algoritmos (lineales, árboles y boostings) y los compararemos usando métricas robustas frente al desbalance (F1 y AUC) para seleccionar el mejor modelo que predice si una canción puede ser un hit.
+
+Estructura Final SRC
+API FastAPI → carpeta src/api/
+
+Modelo entrenado → carpeta src/api/models
+
+Dashboard Streamlit → carpeta src/dashboard/
+
+
+Publicacion 
+                 +------------------------+
+                 |   Streamlit Cloud      |
+                 |   (Dashboard UI)       |
+                 |   https://...app       |
+                 +-----------+------------+
+                             |
+                             |  HTTPS (POST/JSON)
+                             v
+         +---------------------------------------------+
+         |  Railway.app (API FastAPI + Modelo ML)      |
+         |  https://<project>.railway.app/predict_hit   |
+         +---------------------------------------------+
+Dashboard → Streamlit Cloud (sin Docker)
+API FastAPI → Railway (con Docker obligatorio)
