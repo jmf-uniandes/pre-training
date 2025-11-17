@@ -14,16 +14,14 @@ def create_gauge_chart(value, title_text="PROBABILIDAD DE HIT"):
     - title_text: Texto superior del gauge
     """
 
-    # Seguridad: el valor debe estar entre 0–100
+    # valor entre 0–100
     value = np.clip(value, 0, 100)
 
     fig = go.Figure(go.Indicator(
         mode="gauge+number",
         value=value,
-
-        
-        # TÍTULO DEL GAUGE
-        
+       
+       # Título
         title={
             "text": f"<b>{title_text}</b>",
             "font": {
@@ -32,10 +30,7 @@ def create_gauge_chart(value, title_text="PROBABILIDAD DE HIT"):
                 "family": "Orbitron"
             }
         },
-
-        
-        # NÚMERO CENTRAL
-        
+        # KPI Central
         number={
             'suffix': "%",
             'font': {
@@ -44,15 +39,8 @@ def create_gauge_chart(value, title_text="PROBABILIDAD DE HIT"):
                 'family': "Orbitron"
             }
         },
-
-        
-        # DOMINIO
-        
-        domain={'x': [0, 1], 'y': [0, 1]},
-
-        
-        # DEFINICIÓN DEL GAUGE
-        
+       
+        domain={'x': [0, 1], 'y': [0, 1]},       
         gauge={
             'shape': "angular",
             'bar': {
@@ -76,9 +64,6 @@ def create_gauge_chart(value, title_text="PROBABILIDAD DE HIT"):
         }
     ))
 
-    
-    # LAYOUT GENERAL
-    
     fig.update_layout(
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
@@ -87,6 +72,6 @@ def create_gauge_chart(value, title_text="PROBABILIDAD DE HIT"):
         width=None,
         margin=dict(l=10, r=10, t=50, b=10)
     )
-    # Mantener figura perfectamente cuadrada
+
     fig.update_yaxes(scaleanchor="x", scaleratio=1)
     return fig

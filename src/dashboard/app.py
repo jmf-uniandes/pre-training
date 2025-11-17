@@ -8,7 +8,7 @@ from utils import load_dataset, load_css, API_URL
 from gauge import create_gauge_chart
 
 
-# CONFIGURACIÓN PRINCIPAL
+# Configuracion de la página
 st.set_page_config(
     page_title="Buscador de Hits 🎵",
     page_icon="🎵",
@@ -22,7 +22,7 @@ load_css()
 df = load_dataset()
 
 
-# TÍTULO PRINCIPAL
+#título y descripción
 st.markdown(
     """
     <h1 style='text-align:center; color:#32F5C8;'>🎵</h1>
@@ -36,10 +36,10 @@ st.markdown(
 
 st.write("")
 
-# LAYOUT PRINCIPAL
+# Diseño de dos columnas
 col1, col2 = st.columns([1.2, 1.8])
 
-# COLUMNA IZQUIERDA — SLIDERS
+# columna izquierda — controles
 with col1:
     st.subheader("🛠️ Ajusta los atributos de la canción")
     genre = st.selectbox("Género", sorted(df["genre"].unique()))
@@ -73,7 +73,7 @@ with col1:
         st.session_state["pred_prob"] = data["hit_probability"]
         st.session_state["pred_label"] = data["hit_prediction"]
 
-# COLUMNA DERECHA — RESULTADO 
+# Columna derecha — resultados
 with col2:
     st.subheader("📈 Resultado de la Predicción")
     if "pred_prob" in st.session_state:
@@ -81,14 +81,14 @@ with col2:
         pred = int(st.session_state["pred_label"])
         prob_pct = int(prob * 100)
       
-        # GAUGE PLOTLY
+        # control gauge
         gauge_fig = create_gauge_chart(prob_pct, "PROBABILIDAD DE HIT")
-        # CENTRAR EL GAUGE CON COLUMNAS
+        # centrar el componente
         g1, g2, g3 = st.columns([1, 2, 1])  # columna central 2x más grande
         with g2:
             st.plotly_chart(gauge_fig, use_container_width=True)
          
-        # INTERPRETACIÓN
+        # interpretación 
         st.write("")
 
         if pred == 1:
@@ -106,7 +106,7 @@ with col2:
             else:
                 st.info("ℹ️ **NO HIT — Indeciso**")
         
-        # ESPECTRO DE PROBABILIDAD (GRÁFICO)
+        # Espectro de probabilidad
         st.markdown("### 📊 Espectro de Probabilidad")
         st.caption("Distribución centrada en tu probabilidad")
 
