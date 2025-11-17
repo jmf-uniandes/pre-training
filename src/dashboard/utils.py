@@ -16,7 +16,10 @@ ROOT_DIR = os.path.dirname(SRC_DIR)
 # RUTAS DE ARCHIVOS
 DATA_PATH = os.path.join(ROOT_DIR, "data", "processed", "spotify_clean_modeling.csv")
 CSS_PATH = os.path.join(BASE_DIR, "assets", "custom.css")
-API_URL = "http://127.0.0.1:8000/songs/predict_hit"
+# Local
+# API_URL = "http://127.0.0.1:8000/songs/predict_hit"
+API_URL = "https://pre-training-production.up.railway.app/songs/predict_hit"
+
 
 
 # FUNCIONES
