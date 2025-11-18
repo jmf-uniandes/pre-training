@@ -11,5 +11,70 @@
     "tempo": 122,
     "valence": 0.75,
     "duration_ms": 190000
+  },
+  {
+    "genre": "Rock",
+    "acousticness": 0.193,
+    "danceability": 0.579,
+    "energy": 0.904,
+    "instrumentalness": 0.0,
+    "liveness": 0.064,
+    "loudness": -2.729,
+    "speechiness": 0.0618,
+    "tempo": 82.014,
+    "valence": 0.681,
+    "duration_ms": 190947
+  },
+  {
+    "genre": "Pop",
+    "acousticness": 0.00579,
+    "danceability": 0.588,
+    "energy": 0.821,
+    "instrumentalness": 0.000275,
+    "liveness": 0.208,
+    "loudness": -6.54,
+    "speechiness": 0.216,
+    "tempo": 188.098,
+    "valence": 0.509,
+    "duration_ms": 182075
+  },
+  {
+    "genre": "Pop",
+    "acousticness": 0.0591,
+    "danceability": 0.71,
+    "energy": 0.888,
+    "instrumentalness": 0.0,
+    "liveness": 0.134,
+    "loudness": -6.457,
+    "speechiness": 0.235,
+    "tempo": 170.193,
+    "valence": 0.816,
+    "duration_ms": 225987
+  },
+  {
+    "genre": "Pop",
+    "acousticness": 0.0104,
+    "danceability": 0.588,
+    "energy": 0.67,
+    "instrumentalness": 3.33e-6,
+    "liveness": 0.338,
+    "loudness": -6.439,
+    "speechiness": 0.0473,
+    "tempo": 118.159,
+    "valence": 0.505,
+    "duration_ms": 238173
+  },
+  {
+    "genre": "Pop",
+    "acousticness": 0.0211,
+    "danceability": 0.568,
+    "energy": 0.656,
+    "instrumentalness": 1.37e-5,
+    "liveness": 0.213,
+    "loudness": -5.413,
+    "speechiness": 0.0433,
+    "tempo": 100.049,
+    "valence": 0.364,
+    "duration_ms": 198160
   }
 ]
