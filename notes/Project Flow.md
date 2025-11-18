@@ -205,63 +205,77 @@ Estos pasos aseguran una base de datos limpia antes del modelado.
 
 ```
 CASE-STUDY-SPOTIFY/
+PRE-TRAINING/
 │
-├── data/                     
-│   ├── raw/                  # Datos originales intactos y limpios
+├── .streamlit/
+│   └── config.toml
+│
+├── .venv/
+│
+├── data/
+│   ├── raw/
 │   │   └── SpotifyFeatures.csv
-│   ├── processed/            
-│   │   └── spotify_clean.csv
+│   │
+│   ├── processed/
+│   │   ├── spotify_clean_modeling.csv
+│   │   ├── spotify_clean.csv
+│   │   ├── X_test.csv
+│   │   ├── y_test.csv
+│   │   └── y_pred_model_evaluation.csv
+│   │
+│   └── processed/extra/ (si deseas mantener otras versiones)
 │
-├── models/                   
-│   ├── random_forest.pkl
-│   ├── xgboost_model.json
-│   ├── lightgbm_model.txt
-│   └── scaler.pkl            # Escalador o encoder
-│
-├── notebooks/                
+├── notebooks/
 │   ├── 01_loader.ipynb
 │   ├── 02_eda.ipynb
 │   ├── 03_preprocessing.ipynb
-│   ├── 04_model_training.ipynb
-│   └── 05_evaluation.ipynb
+│   ├── 04_model_trainingold.ipynb
+│   └── 05_model_evaluation.ipynb
 │
-├── notes/                    
+├── notes/
 │   ├── img/
+│   │   └── img-samples-dashboard/
+│   │
 │   ├── Github_notes.md
+│   ├── Json_API_test.json
 │   ├── Markdown_info.md
 │   ├── Project Flow.md
-│   └── References.md         # Bibliografía y links útiles
+│   └── Spotify_Dataset_Description.md
 │
-├── src/                      
-│   ├── utils/                
-│   │   ├── __init__.py       # Importaciones como módulo Python
-│   │   ├── data_loader.py
-│   │   ├── preprocess.py
-│   │   ├── visualizations.py
-│   │   └── model_utils.py
-│   ├── api/                  
+├── src/
+│   ├── api/
 │   │   ├── __init__.py
-│   │   ├── routes.py
-│   │   └── model_service.py  # Función predictiva central (load_model + predict)
-│   └── dashboard/            # Streamlit app
-│       └── buscador_de_hits.py
+│   │   ├── main.py
+│   │   ├── routes/
+│   │   │   └── routes.py
+│   │   ├── models/
+│   │   │   └── model_pipeline.joblib
+│   │   ├── utils/
+│   │   │   └── preprocess.py
+│   │   ├── static/   (si tu API sirviera archivos estáticos)
+│   │   └── requirements_api.txt
+│   │
+│   ├── dashboard/
+│   │   ├── __init__.py
+│   │   ├── assets/
+│   │   │   └── custom.css
+│   │   ├── pages/
+│   │   │   ├── 1_metrics.py
+│   │   │   ├── gauge.py
+│   │   │   ├── utils.py
+│   │   │   └── __init__.py
+│   │   └── app.py
+│   │
+│   └── __pycache__/   (ignorado en producción)
 │
-├── results/                  
-│   ├── figures/              
-│   ├── metrics/              
-│   └── reports/              # PDF o notebooks convertidos a HTML/PDF
-│
-├── tests/                    
-│   ├── test_data_loader.py
-│   ├── test_model.py
-│   └── test_api.py
-│
-├── main.py                   
 ├── .gitignore
+│
 ├── README.md
-├── requirements.txt
-├── setup.md                  
-└── environment.yml            # entorno reproducible (conda o venv) Docker
+│
+├── Dockerfile
+│
+├── requirements.txt         (para entorno general)
+└── requirementsApp.txt      (para Streamlit)
 
 ```
 
