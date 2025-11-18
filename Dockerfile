@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# copiar archivo de requerimientos solo del API
+    # copiar archivo de requerimientos solo del API
 COPY src/api/requirements_api.txt /app/requirements.txt
 
 # instalar dependencias

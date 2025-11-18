@@ -17,6 +17,10 @@ app.mount("/static", StaticFiles(directory="src/api/static"), name="static")
 def favicon():
     return FileResponse("src/api/static/favicon.ico")
 
+# Endpoint para pruebas del dashboard y monitores
+@app.get("/health")
+def health():
+    return {"status": "ok"}
 
 # Rutas de la API
 app.include_router(songs_router, prefix="/songs", tags=["Songs"])
