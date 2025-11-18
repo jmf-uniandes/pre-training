@@ -20,6 +20,20 @@ CSS_PATH = os.path.join(BASE_DIR, "assets", "custom.css")
 # API_URL = "http://127.0.0.1:8000/songs/predict_hit"
 API_URL = "https://pre-training-production.up.railway.app/songs/predict_hit"
 
+# Diccionario global de descripciones para sliders y atributos
+DESCRIPTIONS = {
+    "genre": "Género musical",
+    "acousticness": "Qué tan acústica es la canción",
+    "danceability": "Qué tan bailable es la canción",
+    "energy": "Intensidad y actividad percibida",
+    "loudness": "Volumen promedio (dB)",
+    "speechiness": "Presencia de palabras habladas",
+    "instrumentalness": "Nivel instrumental (sin voz)",
+    "liveness": "Probabilidad de grabación en vivo",
+    "valence": "Qué tan positiva/feliz suena",
+    "tempo": "Velocidad del ritmo (BPM)",
+    "duration_ms": "Duración de la canción en milisegundos"
+}
 
 
 # FUFunciones utilitarias

@@ -4,8 +4,7 @@ import numpy as np
 import plotly.graph_objects as go
 
 # Utilities and components
-from utils import load_dataset, load_css, API_URL, DESCRIPTIONS
-
+from utils import load_dataset, load_css, API_URL
 from gauge import create_gauge_chart
 
 
@@ -24,44 +23,16 @@ df = load_dataset()
 
 
 #título y descripción
-# st.markdown(
-#     """
-#     <h1 style='text-align:center; color:#32F5C8;'>🎵</h1>
-#     <h1 style='text-align:center; color:#32F5C8;'>EL BUSCADOR DE HITS</h1>
-#         <h3 style='text-align:center; color:#7FFFD4; margin-top:-15px;'>
-#         Crea tu Receta para el Éxito Musical
-#     </h3>
-#     """,
-#     unsafe_allow_html=True
-# )
 st.markdown(
     """
-    <h1 style='text-align:center; color:#32F5C8; font-size:60px;'>
-        🎵 EL BUSCADOR DE HITS
-    </h1>
-
-    <h3 style='text-align:center; color:#7FFFD4; margin-top:-20px;'>
-        Análisis de Atributos Musicales y Predicción de Popularidad de Canciones
+    <h1 style='text-align:center; color:#32F5C8;'>🎵</h1>
+    <h1 style='text-align:center; color:#32F5C8;'>EL BUSCADOR DE HITS</h1>
+        <h3 style='text-align:center; color:#7FFFD4; margin-top:-15px;'>
+        Crea tu Receta para el Éxito Musical
     </h3>
-
-    <p style='text-align:center; color:#A7FFF3; font-size:18px; margin-top:15px;'>
-        Este proyecto construye un sistema de analítica que, a partir de los atributos 
-        musicales de una canción de Spotify, clasifica automáticamente si tiene perfil de 
-        <b>“Hit”</b> o <b>“No Hit”</b> mediante un modelo de Machine Learning avanzado.  
-        La predicción se expone a través de una <b>API</b> y un <b>dashboard interactivo</b> 
-        denominado <b>“El Buscador de Hits”</b>.
-    </p>
-
-    <p style='text-align:left; color:#8FFFE0; font-size:16px; margin-top:20px;'>
-        <b>Integrantes:</b> Jose Miguel Figueroa | Edison Gonzales | Carlos Pintag
-    </p>
-
-    <hr style='border: 1px solid #333; margin-top:25px; margin-bottom:25px;'>
     """,
     unsafe_allow_html=True
 )
-
-
 
 st.write("")
 
@@ -70,30 +41,18 @@ col1, col2 = st.columns([1.2, 1.8])
 
 # columna izquierda — controles
 with col1:
-    # st.subheader("🛠️ Ajusta los atributos de la canción")
-    # genre = st.selectbox("Género", sorted(df["genre"].unique()))
-    # acousticness = st.slider("Acousticness", 0.0, 1.0, 0.5, 0.01)
-    # danceability = st.slider("Danceability", 0.0, 1.0, 0.5, 0.01)
-    # energy = st.slider("Energy", 0.0, 1.0, 0.5, 0.01)
-    # loudness = st.slider("Loudness", -60.0, 0.0, -10.0, 0.1)
-    # speechiness = st.slider("Speechiness", 0.0, 1.0, 0.1, 0.01)
-    # instrumentalness = st.slider("Instrumentalness", 0.0, 1.0, 0.0, 0.001)
-    # liveness = st.slider("Liveness", 0.0, 1.0, 0.1, 0.01)
-    # valence = st.slider("Valence", 0.0, 1.0, 0.5, 0.01)
-    # tempo = st.slider("Tempo (BPM)", 40.0, 220.0, 120.0, 1.0)
-    # duration_ms = st.slider("Duración (ms)", 30000, 400000, 180000, 1000)
-    genre = st.selectbox(f"Género ({DESCRIPTIONS['genre']})", sorted(df["genre"].unique()))
-    acousticness = st.slider(f"Acousticness ({DESCRIPTIONS['acousticness']})", 0.0, 1.0, 0.5, 0.01)
-    danceability = st.slider(f"Danceability ({DESCRIPTIONS['danceability']})", 0.0, 1.0, 0.5, 0.01)
-    energy = st.slider(f"Energy ({DESCRIPTIONS['energy']})", 0.0, 1.0, 0.5, 0.01)
-    loudness = st.slider(f"Loudness ({DESCRIPTIONS['loudness']})", -60.0, 0.0, -10.0, 0.1)
-    speechiness = st.slider(f"Speechiness ({DESCRIPTIONS['speechiness']})", 0.0, 1.0, 0.1, 0.01)
-    instrumentalness = st.slider(f"Instrumentalness ({DESCRIPTIONS['instrumentalness']})", 0.0, 1.0, 0.0, 0.001)
-    liveness = st.slider(f"Liveness ({DESCRIPTIONS['liveness']})", 0.0, 1.0, 0.1, 0.01)
-    valence = st.slider(f"Valence ({DESCRIPTIONS['valence']})", 0.0, 1.0, 0.5, 0.01)
-    tempo = st.slider(f"Tempo (BPM) ({DESCRIPTIONS['tempo']})", 40.0, 220.0, 120.0, 1.0)
-    duration_ms = st.slider(f"Duración (ms) ({DESCRIPTIONS['duration_ms']})", 30000, 400000, 180000, 1000)
-
+    st.subheader("🛠️ Ajusta los atributos de la canción")
+    genre = st.selectbox("Género", sorted(df["genre"].unique()))
+    acousticness = st.slider("Acousticness", 0.0, 1.0, 0.5, 0.01)
+    danceability = st.slider("Danceability", 0.0, 1.0, 0.5, 0.01)
+    energy = st.slider("Energy", 0.0, 1.0, 0.5, 0.01)
+    loudness = st.slider("Loudness", -60.0, 0.0, -10.0, 0.1)
+    speechiness = st.slider("Speechiness", 0.0, 1.0, 0.1, 0.01)
+    instrumentalness = st.slider("Instrumentalness", 0.0, 1.0, 0.0, 0.001)
+    liveness = st.slider("Liveness", 0.0, 1.0, 0.1, 0.01)
+    valence = st.slider("Valence", 0.0, 1.0, 0.5, 0.01)
+    tempo = st.slider("Tempo (BPM)", 40.0, 220.0, 120.0, 1.0)
+    duration_ms = st.slider("Duración (ms)", 30000, 400000, 180000, 1000)
 
     if st.button("🎯 Predecir HIT", use_container_width=True):
         payload = {
